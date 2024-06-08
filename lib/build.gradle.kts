@@ -25,6 +25,10 @@ dependencies {
     // Use the JUnit 5 integration.
     testImplementation(libs.junit.jupiter.engine)
 
+    // Config Loader
+    testImplementation("com.sksamuel.hoplite:hoplite-core:2.7.5")
+    testImplementation("com.sksamuel.hoplite:hoplite-yaml:2.7.5")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.
