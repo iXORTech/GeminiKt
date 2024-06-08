@@ -36,6 +36,14 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
+
+    // JSON Parser
+    implementation("com.beust:klaxon:5.6")
+
+    // Ktor Client
+    implementation("io.ktor:ktor-client-core-jvm")
+    implementation("io.ktor:ktor-client-okhttp")
+    implementation("io.ktor:ktor-client-okhttp-jvm")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
