@@ -1,5 +1,6 @@
 package tech.ixor.entities
 
+import kotlinx.coroutines.runBlocking
 import tech.ixor.apis.GoogleGeminiAPI
 import tech.ixor.enums.GeminiApiVersions
 import tech.ixor.enums.GeminiModels
@@ -8,7 +9,7 @@ import tech.ixor.enums.GeminiModels
  * The Google Gemini Entity
  * @param geminiApiVersion The Gemini API version to use
  * @param geminiModel The Gemini model to use
- * @param systemInstruction The system instruction given to the Gemini model
+ * @param systemInstructionMessage The system instruction given to the Gemini model
  */
 class GoogleGemini(
     private val api: GoogleGeminiAPI,
@@ -62,8 +63,12 @@ class GoogleGemini(
 
     fun generateContent(message: String): String {
         addContent(message, "user")
-        val response = api.generateContent(url, systemInstruction, contents)
-        addContent(response, "model")
-        return response
+        val content: String
+        runBlocking {
+            val response = api.generateContent(url, systemInstruction, contents)
+            content = response?.candidates?.get(0)?.content?.parts?.get(0)?.text ?: "NO_RESPONSE"
+        }
+        addContent(content, "model")
+        return content
     }
 }

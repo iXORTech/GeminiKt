@@ -1,14 +1,14 @@
 package tech.ixor.web
 
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Parser
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol
+import tech.ixor.web.HttpRequests.GetRequests
+import tech.ixor.web.HttpRequests.PostRequests
+import tech.ixor.web.HttpRequests.httpClient
 
 /**
  * HTTP utilities, used for quickly sending GET and POST requests
@@ -49,46 +49,6 @@ object HttpRequests {
             }
             return httpResponse
         }
-
-        /**
-         * Send a GET request to the specified URL and return the response body as a string
-         * @param url The URL to send the request to
-         * @param requestBuilder The request builder used to modify the request
-         * @return The response body as a string
-         */
-        fun body(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): String {
-            val httpResponseBody: String
-            runBlocking {
-                httpResponseBody = request(url, requestBuilder).bodyAsText()
-            }
-            return httpResponseBody
-        }
-
-        private fun bodyJson(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): Any {
-            val parser: Parser = Parser.default()
-            return parser.parse(StringBuilder(body(url, requestBuilder)))
-        }
-
-        /**
-         * Send a GET request to the specified URL and return the response body as a JSON object
-         * @param url The URL to send the request to
-         * @param requestBuilder The request builder used to modify the request
-         * @return The response body as a JSON object
-         */
-        fun bodyJsonObject(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): JsonObject {
-            return bodyJson(url, requestBuilder) as JsonObject
-        }
-
-        /**
-         * Send a GET request to the specified URL and return the response body as a JSON array
-         * @param url The URL to send the request to
-         * @param requestBuilder The request builder used to modify the request
-         * @return The response body as a JSON array
-         */
-        @Suppress("UNCHECKED_CAST")
-        fun bodyJsonArray(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): JsonArray<JsonObject> {
-            return bodyJson(url, requestBuilder) as JsonArray<JsonObject>
-        }
     }
 
     /**
@@ -107,47 +67,6 @@ object HttpRequests {
                 httpResponse = httpClient.post(url, requestBuilder)
             }
             return httpResponse
-        }
-
-        /**
-         * Send a POST request to the specified URL and return the response body as a string
-         * @param url The URL to send the request to
-         * @param requestBuilder The request builder used to modify the request
-         * @return The response body as a string
-         */
-        fun body(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): String {
-            val httpResponseBody: String
-            runBlocking {
-                httpResponseBody = request(url, requestBuilder).bodyAsText()
-            }
-            println(httpResponseBody)
-            return httpResponseBody
-        }
-
-        private fun bodyJson(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): Any {
-            val parser: Parser = Parser.default()
-            return parser.parse(StringBuilder(body(url, requestBuilder)))
-        }
-
-        /**
-         * Send a POST request to the specified URL and return the response body as a JSON object
-         * @param url The URL to send the request to
-         * @param requestBuilder The request builder used to modify the request
-         * @return The response body as a JSON object
-         */
-        fun bodyJsonObject(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): JsonObject {
-            return bodyJson(url, requestBuilder) as JsonObject
-        }
-
-        /**
-         * Send a POST request to the specified URL and return the response body as a JSON array
-         * @param url The URL to send the request to
-         * @param requestBuilder The request builder used to modify the request
-         * @return The response body as a JSON array
-         */
-        @Suppress("UNCHECKED_CAST")
-        fun bodyJsonArray(url: String, requestBuilder: HttpRequestBuilder.() -> Unit = {}): JsonArray<JsonObject> {
-            return bodyJson(url, requestBuilder) as JsonArray<JsonObject>
         }
     }
 }
