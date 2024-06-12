@@ -25,6 +25,9 @@ object HttpRequests {
             config {
                 followRedirects(true)
                 protocols(listOf(Protocol.HTTP_1_1, Protocol.HTTP_2))
+                connectTimeout(0, java.util.concurrent.TimeUnit.SECONDS)
+                readTimeout(0, java.util.concurrent.TimeUnit.SECONDS)
+                writeTimeout(0, java.util.concurrent.TimeUnit.SECONDS)
             }
         }
     }
