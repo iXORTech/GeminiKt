@@ -1,4 +1,4 @@
 api:
   gemini:
-    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent
+    url: https://generativelanguage.googleapis.com/
     key: # Your API key here
